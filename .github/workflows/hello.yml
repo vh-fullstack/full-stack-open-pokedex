@@ -18,3 +18,21 @@ jobs:
       - name: Directory content
         run: |
           ls
+
+  explore:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check OS Version
+      run: lsb_release -a
+    
+    - name: Check Core Tool Versions
+      run: |
+        node --version
+        python --version
+        docker --version
+        aws --version
+        gcloud --version
+        az --version
+
+    - name: List all installed packages (Debian/Ubuntu)
+      run: dpkg -l | head -n 40 # show the first 20 packages
