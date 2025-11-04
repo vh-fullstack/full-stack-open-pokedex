@@ -1,7 +1,15 @@
 ## Alternatives
-There are a few alternatives to Jenkins and GitHub Actions.
-1. All-in-One platforms (integrated with Git Hosting):
-- GitLab CI/CD which has a single .gitlab-ci.yml file for configuration. It is either SaaS or Self-Hosted.
+There are a few alternatives to Jenkins and GitHub Actions grouped by their type and hosting model.
+
+---
+
+
+
+### 1. All-in-One Platforms (Integrated with Git Hosting):
+
+These platforms provide both **Git hosting** and **CI/CD** capabilities in a single product.
+
+- **GitLab CI/CD** — which has a single .gitlab-ci.yml file for configuration. It is either SaaS or Self-Hosted.
 - Bitbucket Pipelines which is SaaS (cloud-only), which has a bitbucket-pipelines.yml configuration file. It is a good choice if the team and project is already heavily invested in the Atlassian ecosystem (Jira, Confluence, Bitbucket).
 - Azure DevOps Pipelines, which is an extremely mature platform. Integrates well with Azure cloud services. A good choice for Enterprises using Azure.
 
