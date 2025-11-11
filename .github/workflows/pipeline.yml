@@ -20,9 +20,6 @@ jobs:
       - name: Run unit tests
         run: npm run test
       - name: Run end-to-end testing
-        run: |
-          npm run start &
-          npx wait-on http://localhost:8080
-          npm run test:e2e
+        run: npm run test:e2e
       - name: Build
         run: npm run build
