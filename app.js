@@ -18,6 +18,10 @@ app.get('/hello', (req, res) => {
   res.send('hello, world!')
 })
 
+app.get('/feature', (req, res) => {
+  res.send('a feature route')
+})
+
 app.listen(PORT, () => {
   // eslint-disable-next-line no-console
   console.log(`server started on port ${PORT}`)
