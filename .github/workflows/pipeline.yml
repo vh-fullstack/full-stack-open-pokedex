@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
+      - uses: superfly/flyctl-actions/setup-flyctl@main
       - name: Install dependencies
         run: npm install
       - name: Check style
@@ -23,3 +24,8 @@ jobs:
         run: npx playwright install --with-deps
       - name: Run Playwright tests
         run: npx playwright test
+      - name: Create production build
+        run: npm run build
+      - run: flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
