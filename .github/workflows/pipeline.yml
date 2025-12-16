@@ -41,23 +41,37 @@ jobs:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       # Discord notifications in case of success/failure
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v2
+      - name: Build Failure
         if: failure()
-        with:
-            severity: error
-            text: Test Failed!
-            description: commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build >:(
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -X POST $DISCORD_WEBHOOK \
+          -H "Content-Type: application/json" \
+          -d '{
+            "username": "GitHub Actions",
+            "content": "Build Failed",
+            "embeds": [{
+              "description": "commit ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build :(",
+              "color": 16711680
+            }]
+          }'
 
       - name: Deploy Success
-        uses: rjstone/discord-webhook-notify@v2
         if: ${{ success() && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip') }}
-        with:
-            severity: info
-            text: A new version of Pokedex deployed!
-            description: to https://pokedex-6722.fly.dev by ${{ github.event.head_commit.author.username}}
-            webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          curl -X POST $DISCORD_WEBHOOK \
+          -H "Content-Type: application/json" \
+          -d '{
+            "username": "GitHub Actions",
+            "content": "A new version of Pokedex deployed",
+            "embeds": [{
+              "description": "to https://pokedex-6722.fly.dev by ${{ github.event.head_commit.author.username }}",
+              "color": 65280
+            }]
+          }'
 
   tag_release:
     needs: [deployment_pipeline]
