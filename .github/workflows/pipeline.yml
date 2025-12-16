@@ -77,6 +77,38 @@ jobs:
             }]
           }'
 
+      - name: Build Failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          # Use github.actor as fallback for PRs
+          AUTHOR: ${{ github.event.head_commit.author.username || github.actor }}
+        run: |
+          curl -X POST $DISCORD_WEBHOOK \
+          -H "Content-Type: application/json" \
+          -d '{
+            "username": "GitHub Actions",
+            "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+            "embeds": [{
+              "title": "🚨 Build Failed",
+              "color": 16711680,
+              "description": "The build pipeline failed. Please check the logs immediately.",
+              "fields": [
+                {
+                  "name": "Commit",
+                  "value": "[View Commit]('"$COMMIT_URL"')",
+                  "inline": true
+                },
+                {
+                  "name": "Blame",
+                  "value": "'"$AUTHOR"'",
+                  "inline": true
+                }
+              ]
+            }]
+          }'
+
   tag_release:
     needs: [deployment_pipeline]
     runs-on: ubuntu-latest
