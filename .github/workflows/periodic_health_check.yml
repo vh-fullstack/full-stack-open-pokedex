@@ -4,10 +4,9 @@ on:
   push:
     branches:
       - main
-
-#on:
-#  schedule:
-#    - cron: "0 12 * * *"
+  # runs everyday at 12:00 PM UTC.(7:00 am EST)
+  #schedule:
+  #  - cron: "0 12 * * *"
 
 jobs:
   health_check:
